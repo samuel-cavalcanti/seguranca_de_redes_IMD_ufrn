@@ -9,6 +9,7 @@ Exemplo de uso:
 
 __cifrando frase__: 
 ``` bash
+$ chmod + x crypy # para tornar o script executável
 $ echo "mensagem que deve ser cifrada" > messagem.txt
 $ ./crypy 02/5/2019 messagem.txt
 ```  
