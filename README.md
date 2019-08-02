@@ -20,6 +20,6 @@ $ ./crypy 02/5/2019 messagem.sec
 mensagem que deve ser cifrada # provável output
 ```  
 
-link para a pasta do código: [cifra](cifra/)
+link para o código: [cifra](cifra/crypy)
 
 
