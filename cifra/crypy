@@ -5,57 +5,50 @@ import os
 from itertools import cycle
 
 
-def encrypt(date:list, message:str, encrypt=True) -> str:
+def encrypt(date: list, message: str, encrypt=True) -> str:
     space = 32
 
     new_message = str()
-    for number , char in zip(cycle(date), message):
-           if ord(char) != space:
-               ascii_number = ord(char)
-               if encrypt: 
-                    new_message += chr(ascii_number+number)
-               else:
-                    new_message += chr(ascii_number-number)
-           else:
-               new_message+= char
-
+    for number, char in zip(cycle(date), message):
+        if ord(char) != space:
+            ascii_number = ord(char)
+            if encrypt:
+                new_message += chr(ascii_number + number)
+            else:
+                new_message += chr(ascii_number - number)
+        else:
+            new_message += char
 
     return new_message
 
-def pre_encrypt(date:str,file_path:str)-> (list,str):
 
+def pre_encrypt(date: str, file_path: str) -> (list, str):
     if os.path.isfile(sys.argv[2]):
         message = open(sys.argv[2]).read()
-        date  = [int(char) for char in date if char.isalnum()]
+        date = [int(char) for char in date if char.isalnum()]
         return date, message
     else:
-        print("arquivo "+ sys.argv[2] + " não encontrado !!")
+        print("arquivo " + sys.argv[2] + " não encontrado !!")
         exit(-1)
 
-def save_new_message(new_message:str,file_path:str):
-    try: 
-         new_txt = open(file_path.split(".")[0]+".sec","w")
-         new_txt.write(new_message)
+
+def save_new_message(new_message: str, file_path: str):
+    try:
+        new_txt = open(file_path.split(".")[0] + ".sec", "w")
+        new_txt.write(new_message)
     except Exception as  e:
-        print("erro na leitura ou escrita no arquivo " + file_path+".sec")
+        print("erro na leitura ou escrita no arquivo " + file_path + ".sec")
         print(e)
 
 
-
 def start_script():
-    date , message =  pre_encrypt(sys.argv[1],sys.argv[2])
+    date, message = pre_encrypt(sys.argv[1], sys.argv[2])
 
     if sys.argv[2].split(".")[1] == "txt":
-        new_message = encrypt(date,message)
-        save_new_message(new_message,sys.argv[2])
+        new_message = encrypt(date, message)
+        save_new_message(new_message, sys.argv[2])
     else:
-        print(encrypt(date,message,False))
-
-        
-
-    
-
-
+        print(encrypt(date, message, False))
 
 
 start_script()
