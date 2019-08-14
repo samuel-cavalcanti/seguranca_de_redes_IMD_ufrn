@@ -86,7 +86,7 @@ O MUNDO INTEIRINHO SE ENCHE DE GRACA
 E FICA MAIS LINDO
 POR CAUSA DO AMOR
 ````
-__OBS:__ foi encontrado uma segunda cifra de Cesár de valor 29 , talvéz exista um terceiro 
+__OBS:__ foi encontrado uma segunda cifra de Cesár de valor 29 , talvéz exista uma terceira 
 
 ### Quebrar a cifra de Vigenère
 Escreva um programa que desencripte a mensagem cifrada com a cifra de Vigenère  
