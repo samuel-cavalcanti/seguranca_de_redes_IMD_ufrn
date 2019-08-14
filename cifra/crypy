@@ -6,10 +6,11 @@ from itertools import cycle
 
 
 def encrypt(date:list, message:str, encrypt=True) -> str:
-    
+    space = 32
+
     new_message = str()
     for number , char in zip(cycle(date), message):
-           if ord(char) != 32:
+           if ord(char) != space:
                ascii_number = ord(char)
                if encrypt: 
                     new_message += chr(ascii_number+number)
