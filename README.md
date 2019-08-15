@@ -60,33 +60,32 @@ link para baixar o txt: [encripted text](criptoanalise/cifra_de_cesar/encripted_
 
 #### Solução apresentada:  
 Foi feito um scrip em python que lê o arquivo  [encripted text](criptoanalise/cifra_de_cesar/encripted_text.txt) e testa todas as 55 combinações possíveis e salva cada uma em um arquivo.  
-o deslocamento é de valor 7 e a resposta é:  
+o deslocamento é de valor 33 e a resposta é:  
 ````
-OLHA QUE COISA MAIS LINDA
-MAIS CHEIA DE GRAçA
-E ELA, MENINA
-QUE VEM E QUE PASSA
-NUM DOCE BALANCO
-  CAMINHO DO MAR
+Olha que coisa mais linda
+Mais cheia de graça
+E ela, menina
+Que vem e que passa
+Num doce balanco
+A caminho do mar
 
-MOçA DO CORPO DOURADO
-DO SOL DE IPANEMA
-O SEU BALANçADO é MAIS QUE UM POEMA
-É A COISA MAIS LINDA QUE EU JA VI PASSAR
+Moça do corpo dourado
+Do sol de Ipanema
+O seu balançado é mais que um poema
+É a coisa mais linda que eu ja vi passar
 
- H, POR QUE ESTOU TAO SOZINHO?
- H, POR QUE TUDO E TAO TRISTE?
- H, A BELEZA QUE EXISTE
-  BELEZA QUE NAO E SO MINHA
-QUE TAMBEM PASSA SOZINHA
+Ah, por que estou tao sozinho?
+Ah, por que tudo e tao triste?
+Ah, a beleza que existe
+A beleza que nao e so minha
+Que tambem passa sozinha
 
- H, SE ELA SOUBESSE
-QUE QUANDO ELA PASSA
-O MUNDO INTEIRINHO SE ENCHE DE GRACA
-E FICA MAIS LINDO
-POR CAUSA DO AMOR
+Ah, se ela soubesse
+Que quando ela passa
+O mundo inteirinho se enche de graca
+E fica mais lindo
+Por causa do amor
 ````
-__OBS:__ foi encontrado uma segunda cifra de Cesár de valor 29 , talvéz exista uma terceira 
 
 ### Quebrar a cifra de Vigenère
 Escreva um programa que desencripte a mensagem cifrada com a cifra de Vigenère  

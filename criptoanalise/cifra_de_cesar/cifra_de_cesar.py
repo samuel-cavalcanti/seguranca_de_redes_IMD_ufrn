@@ -39,9 +39,9 @@ def cesar_decrypt(message: str, k: int, alphabet_table: dict, pos_to_alphabet: l
         try:
             pos_char = (alphabet_table[char] - k) % alphabet_size
             new_char = pos_to_alphabet[pos_char]
-            if new_char.islower():
-                pos_char = (alphabet_table[new_char] + 29) % alphabet_size
-                new_char = pos_to_alphabet[pos_char]
+            # if new_char.islower():
+            #     pos_char = (alphabet_table[new_char] + 29) % alphabet_size
+            #     new_char = pos_to_alphabet[pos_char]
         except:
             new_char = char
 
