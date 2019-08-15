@@ -17,19 +17,23 @@ def generate_vigenere_matrix() -> dict:
     return vigenere_matrix
 
 
-# matrix[linha][valor]= coluna
+
 def generete_decrypted_vigenere_matrix() -> dict:
-    vigenere_matrix = generate_vigenere_matrix()
+    a = 97
+    z = 122
+    alphabet_list = [chr(i) for i in range(a, z + 1)]
+    alphabet_size = len(alphabet_list)
 
     decrypted_matrix = dict()
-    for row in vigenere_matrix:
+    for i, key in enumerate(alphabet_list):
         column = dict()
-        for col in vigenere_matrix[row]:
-            column[vigenere_matrix[row][col]] = col
-        decrypted_matrix[row] = column
+        for j, decrypted_char in enumerate(alphabet_list):
+            value = alphabet_list[(j + i) % alphabet_size]
+            column[value] = decrypted_char
+        decrypted_matrix[key] = column
 
     return decrypted_matrix
-
+    # matrix[key][value] == decrypted_char
 
 def print_vigenere_matrix(matrix: dict):
     for row in matrix:

@@ -1,0 +1,92 @@
+#!/bin/python3
+
+import cv2
+import numpy as np
+import sys
+
+
+def preprocessing() -> (np.ndarray, str):
+    try:
+        image = cv2.imread(sys.argv[1])
+    except:
+        print("não foi possível abrir a imagem")
+        exit(-1)
+
+    if len(sys.argv) == 2:
+        return image, ""
+
+    try:
+        message = open(sys.argv[2], "r").read()
+    except:
+        print("não foi possível abrir o arquivo")
+        exit(-2)
+
+    if image.size < len(message) * 9:
+        print("a imagem possuí um número de bytes inferior a menssagem !!")
+        exit(-3)
+
+    return image, message
+
+
+def show_image(title: str, image: np.ndarray):
+    cv2.namedWindow(title, cv2.WINDOW_NORMAL)
+    cv2.imshow(title, image)
+    cv2.waitKey(0)
+
+
+def hide_on_the_image(image: np.ndarray, message: str):
+    original_shape = image.shape
+
+    # show_image("original image", image)
+
+    image = image.reshape((-1, 9))
+
+    for i, char in enumerate(message):
+        binary_representation = bin(ord(char)).split("b")[1]
+        binary_representation = (9 - len(binary_representation)) * "0" + binary_representation
+
+        for j, bit in enumerate(binary_representation):
+            # https://stackoverflow.com/questions/6059454/replace-least-significant-bit-with-bitwise-operations
+            image[i][j] = (image[i][j] & ~1) | int(bit)
+
+    image = image.reshape(original_shape)
+
+    # show_image("modified image", image)
+
+    cv2.imwrite("pictures/modified_image.bmp", image)
+
+
+def recovery_char(array: np.ndarray) -> str:
+    char = str()
+    for byte in array:
+        # https://stackoverflow.com/questions/21341338/extract-lsb-bit-from-a-byte-in-python
+        char += str(byte & 1)
+    return chr(int(char, 2))
+
+
+def recovery_message(image: np.ndarray) -> str:
+    image = image.reshape((-1, 9))
+
+    message = str()
+    for nine_bytes in image:
+        char = recovery_char(nine_bytes)
+
+        message += char
+        if len(message) >= 3:
+            if message[-4:-1] == "_|_":
+                break
+
+    return message
+
+
+def main():
+    image, message = preprocessing()
+    if message:
+        hide_on_the_image(image, message)
+    else:
+        message = recovery_message(image)
+        print(message)
+
+
+if __name__ == '__main__':
+    main()
