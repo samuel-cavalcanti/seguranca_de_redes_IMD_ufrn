@@ -123,11 +123,15 @@ Para sua instalação use o comando:
 Exemplo de utilização do script:  
 ```zsh
 $ cat README.md > esteganografia/message.txt
-$ echo "_|_" >> esteganografia/message.txt # esse é o token que simboliza o fim da mensagem
 $ cd esteganografia
 $ chmod +x hide_on_the_image # tornar o script executável
 $ ./hide_on_the_image pictures/teddy_bear_2.bmp message.txt 
 # o último comando vai gerar uma nova imagem chamada modified_image.bmp na pasta pictures
-
 ```
-  
+ Para recuperar a mensagem dentro da imagem :
+ 
+ ```zsh
+#  estando dentro da pasta esteganografia execute: 
+$ ./hide_on_the_image pictures/modified_image.bmp 
+# o último comando deve mostrar na tela todo o README.md 
+```

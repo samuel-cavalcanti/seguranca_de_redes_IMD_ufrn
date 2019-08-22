@@ -25,6 +25,7 @@ def preprocessing() -> (np.ndarray, str):
         print("a imagem possuí um número de bytes inferior a menssagem !!")
         exit(-3)
 
+    message += "\x03"
     return image, message
 
 
@@ -70,12 +71,11 @@ def recovery_message(image: np.ndarray) -> str:
     message = str()
     for nine_bytes in image:
         char = recovery_char(nine_bytes)
-
+        # 03
+        if char == "\x03":
+            break
         message += char
-        if len(message) >= 3:
-            if message[-4:-1] == "_|_":
-                break
-
+       
     return message
 
 

@@ -123,5 +123,3 @@ $ cat README.md > esteganografia/message.txt
 $ 
 
 ```
-  
-_|_
