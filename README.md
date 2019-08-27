@@ -135,3 +135,46 @@ $ ./hide_on_the_image pictures/teddy_bear_2.bmp message.txt
 $ ./hide_on_the_image pictures/modified_image.bmp 
 # o último comando deve mostrar na tela todo o README.md 
 ```
+
+
+## Estudo sobre Criptografia  
+Aprofunde os seus estudo sobre o algoritmo de criptografia DES apresentado nesta aula e explique os diferentes modos de operação de cifras de bloco, deixando claro as vantagens de cada um.
+
+
+### Eletronic CodeBook (ECB)  
+A mensagem é dividida em blocos e cada bloco é criptografado separadamente
+
+#### Vantagem:  
+
++ O modo mais simples de criptografia, Fácil implementação 
+
++ os blocos são cifrados independentemente , podendo ser paralelizado
+
++ Um ou mais bits de erro na operação de cifrar em um determinado bloco, afeta a operação de decifrar do próprio bloco, não se propagando
+
++ é o algoritmo mais rápido dessa lista
+
+#### Desvantagem:
++ Blocos idênticos possuem textos cifrados idênticos se utilizado a mesma chave, ou seja ele não oculta padrões dos dados
+
++ Não recomendo para mensagens de maiores do que um bloco ou se houver possibilidade de reuso de chave em blocos idênticos de mensagens diferentes
+
+### Cipher-block chaining (CBC)
+
+#### Vantagem:  
+
++ tão simples e fácil de implementação quando ECB 
+
++ Cada bloco cifrado fica dependente de todos os blocos de texto simples processados até este momento, ocultando os padrões dos dados 
+
++ Um único erro de bit em um texto cifrado afeta a operação de decifrar do próprio bloco e do bloco seguinte. Os demais blocos são decifrados corretamente
+
+#### Desvantagem:
++ Sua criptografia é sequencial ou seja não pode ser paralelizada  
+
++ Modificações em um bloco de texto legível durante o processo de cifrar altera todos os blocos de texto cifrado subsequentes. Isto inviabiliza que esse modo de operação seja utilizado em aplicações que requeiram acesso de ler/gravar randômicos para encriptar dados.
+
++ A mensagem deve ser alinhada de acordo com um múltiplo do bloco de cifra, para garantir essa condição, usa-se ciphertext stealing 
+
+
+### CIPHER FEEDBACK (CFB)
