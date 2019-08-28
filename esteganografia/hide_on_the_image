@@ -9,8 +9,6 @@ def preprocessing() -> (np.ndarray, str):
     try:
         image = cv2.imread(sys.argv[1])
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        print(image)
-        exit(1)
     except:
         print("não foi possível abrir a imagem")
         exit(-1)
@@ -43,14 +41,12 @@ def hide_on_the_image(image: np.ndarray, message: str):
 
     # show_image("original image", image)
 
-    image = image.reshape((-1, 9))
+    n_default_bytes = 9
+
+    image = image.reshape((-1, n_default_bytes))
 
     for i, char in enumerate(message):
-        binary_representation = bin(ord(char)).split("b")[1]
-        print(binary_representation)
-        binary_representation = (9 - len(binary_representation)) * "0" + binary_representation
-        print(binary_representation)
-        exit(1)
+        binary_representation = bin(ord(char)).split("b")[1].zfill(n_default_bytes)[::-1]
 
         for j, bit in enumerate(binary_representation):
             # https://stackoverflow.com/questions/6059454/replace-least-significant-bit-with-bitwise-operations
@@ -60,7 +56,7 @@ def hide_on_the_image(image: np.ndarray, message: str):
 
     # show_image("modified image", image)
 
-    cv2.imwrite("pictures/modified_image.bmp", image)
+    cv2.imwrite("pictures/modified_image.bmp", cv2.cvtColor(image, cv2.COLOR_RGB2BGR))
 
 
 def recovery_char(array: np.ndarray) -> str:
