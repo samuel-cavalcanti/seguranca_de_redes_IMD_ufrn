@@ -185,7 +185,7 @@ A entrada é processada _s_ bits de cada vez. O texto cifrado anterior é usado 
 
 +  assim como CBC, sua criptografia oculta os padrões dos dados 
 
-#### Desvantagem
+#### Desvantagem:
 
 + Assim como CBC, a sua criptografia é sequencial impossibilitando o paralelismo
 
@@ -200,7 +200,7 @@ Semelhante ao CFB, exceto que a entrada do algoritmo de encriptação é a saida
 
 + Assim como CFB, o OFB é uma cifra de fluxo ou seja pode operar em temo real
 
-#### Desvantagem
+#### Desvantagem:
 
 + O OFB é mais vulnerável a um ataque por modificação de fluxo de mensagem do que o CFB
 
@@ -216,6 +216,12 @@ confidencialidade padronizados, sem reduzir a segurança
 
 + O bloco de texto cifrado i não necessita ser decifrado antes do bloco i+1, ou seja, é paralelizável 
 
-#### Desvantagem
+#### Desvantagem:
 
 + Sucessivos blocos CTR e CTR+1 tem pequenas diferenças de Hamming Isto pode municiar um atacante em obter muitos pares de textos legíveis com uma pequena diferença conhecida, o que deveria facilitar uma criptoanálise diferencial. Mas isso só ocorrerá, se a cifra básica for fraca.
+
+
+#### Referencias :
+Stallings, William. "Criptografia e segurança de redes. Princípios e práticas, ch. 6." (2006).
+
+Ribeiro, Carlos Henrique Calazans, and Luciana Hyodo Roiha. "Estudo Comparativo dos Modos de Operação de Confidencialidade: um Overview para Iniciantes." Revista Ciência e Tecnologia 8.13 (2010).
