@@ -137,12 +137,12 @@ $ ./hide_on_the_image pictures/modified_image.bmp
 ```
 
 
-## Estudo sobre Criptografia  
+## Estudo sobre os Modos de Operação de cifra de bloco  
 Aprofunde os seus estudo sobre o algoritmo de criptografia DES apresentado nesta aula e explique os diferentes modos de operação de cifras de bloco, deixando claro as vantagens de cada um.
 
 
 ### Eletronic CodeBook (ECB)  
-A mensagem é dividida em blocos e cada bloco é criptografado separadamente
+Cada bloco de bits de texto claro é codificado independentemente usando a mesma chave
 
 #### Vantagem:  
 
@@ -160,6 +160,7 @@ A mensagem é dividida em blocos e cada bloco é criptografado separadamente
 + Não recomendo para mensagens de maiores do que um bloco ou se houver possibilidade de reuso de chave em blocos idênticos de mensagens diferentes
 
 ### Cipher-block chaining (CBC)
+A entrada do algoritmo de encriptação é o XOR dos 64 bits de texto claro e os 64 bits anteriores de texto cifrado
 
 #### Vantagem:  
 
@@ -174,7 +175,47 @@ A mensagem é dividida em blocos e cada bloco é criptografado separadamente
 
 + Modificações em um bloco de texto legível durante o processo de cifrar altera todos os blocos de texto cifrado subsequentes. Isto inviabiliza que esse modo de operação seja utilizado em aplicações que requeiram acesso de ler/gravar randômicos para encriptar dados.
 
-+ A mensagem deve ser alinhada de acordo com um múltiplo do bloco de cifra, para garantir essa condição, usa-se ciphertext stealing 
-
 
 ### CIPHER FEEDBACK (CFB)
+A entrada é processada _s_ bits de cada vez. O texto cifrado anterior é usado como entrada para o algoritmo de encriptação a fim de produzir saida pseudoaleatória, que é aplicada a um XOR com o texto claro para criar a próxima unidade de texto cifrado
+
+#### Vantagem:
+
++ é uma cifra de fluxo , ou seja  pode operar em tempo real e não necessita preencher uma mensagem para que haja um número inteiro de blocos 
+
++  assim como CBC, sua criptografia oculta os padrões dos dados 
+
+#### Desvantagem
+
++ Assim como CBC, a sua criptografia é sequencial impossibilitando o paralelismo
+
++  Modificações em um bloco de texto legível durante o processo de cifrar altera todos os blocos de texto cifrado subsequentes. Isto inviabiliza que esse modo de operação seja utilizado em aplicações que requeiram acesso de ler/gravar randômicos para encriptar dados.
+
+### Output FeedBack (OFB)
+Semelhante ao CFB, exceto que a entrada do algoritmo de encriptação é a saida DES anterior, e são usados blocos completos 
+
+#### Vantagem:
+
++ Erro de bit na transmissão não se propagam. Se acontecer de um ou mais bits de erro em qualquer carácter de um texto cifrado comprometerá apenas a decifração daquele bloco, na precisa posição do erro
+
++ Assim como CFB, o OFB é uma cifra de fluxo ou seja pode operar em temo real
+
+#### Desvantagem
+
++ O OFB é mais vulnerável a um ataque por modificação de fluxo de mensagem do que o CFB
+
+
+### CounTeR (CTR)
+Cada bloco de texto claro é aplicado a um XOR com contador encriptado. O contador é incrementado para cada bloco subsequente
+
+
+#### Vantagem:
+
++ CTR tem vantagens de eficiência significantes sobre os modos de operação de
+confidencialidade padronizados, sem reduzir a segurança
+
++ O bloco de texto cifrado i não necessita ser decifrado antes do bloco i+1, ou seja, é paralelizável 
+
+#### Desvantagem
+
++ Sucessivos blocos CTR e CTR+1 tem pequenas diferenças de Hamming Isto pode municiar um atacante em obter muitos pares de textos legíveis com uma pequena diferença conhecida, o que deveria facilitar uma criptoanálise diferencial. Mas isso só ocorrerá, se a cifra básica for fraca.
