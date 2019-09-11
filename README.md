@@ -227,7 +227,7 @@ Stallings, William. "Criptografia e segurança de redes. Princípios e práticas
 Ribeiro, Carlos Henrique Calazans, and Luciana Hyodo Roiha. "Estudo Comparativo dos Modos de Operação de Confidencialidade: um Overview para Iniciantes." Revista Ciência e Tecnologia 8.13 (2010).
 
 
-## Cifras Modernas  Simple DES e RC4
+## Cifras Modernas:  Simple DES e RC4
 
 Implemente o algoritmo de criptografia S-DES apresentado em aula para cifrar/decifrar um
 arquivo texto passado por parâmetro em linha de comando.
@@ -239,7 +239,7 @@ tamanho variável entre 1 a 256 bytes.
 
 para essa atividade foi necessário criar duas classes: SimpleDes e RC4. Para cifrar textos a partir desses algorítmos foi necessário criar uma interface por linha de comando chamado de __encrypt__. Ele é um script python que recebe 4 argumentos:
 
-- Primeiro argumento você escolher se vai usar o Simple DES ou RC4, caso seja escolha  o Simple DES digite: des, caso seja RC4 digite: rc4.
+- Primeiro argumento você escolher se vai usar o Simple DES ou RC4, caso seja escolha  o Simple DES digite: __des__, caso seja RC4 digite: __rc4__.
 
 - Segundo argumento é o aquivo que contém a mensagem cifrada ou não.
 
