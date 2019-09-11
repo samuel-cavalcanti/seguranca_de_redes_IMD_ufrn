@@ -1,4 +1,4 @@
-# seguranca_de_redes_IMD
+# seguranca de redes IMD
 
 ## exercício Cifra 
 Escreva um programa (na linguagem que você domina) que permitam cifrar e decifrar um arquivo de
@@ -225,3 +225,41 @@ confidencialidade padronizados, sem reduzir a segurança
 Stallings, William. "Criptografia e segurança de redes. Princípios e práticas, ch. 6." (2006).
 
 Ribeiro, Carlos Henrique Calazans, and Luciana Hyodo Roiha. "Estudo Comparativo dos Modos de Operação de Confidencialidade: um Overview para Iniciantes." Revista Ciência e Tecnologia 8.13 (2010).
+
+
+## Cifras Modernas  Simple DES e RC4
+
+Implemente o algoritmo de criptografia S-DES apresentado em aula para cifrar/decifrar um
+arquivo texto passado por parâmetro em linha de comando.
+
+Implementar o protótipo do algoritmo RC4 para cifra qualquer texto usando uma chave de
+tamanho variável entre 1 a 256 bytes.
+
+### Solução apresentada
+
+para essa atividade foi necessário criar duas classes: SimpleDes e RC4. Para cifrar textos a partir desses algorítmos foi necessário criar uma interface por linha de comando chamado de __encrypt__. Ele é um script python que recebe 4 argumentos:
+
+- Primeiro argumento você escolher se vai usar o Simple DES ou RC4, caso seja escolha  o Simple DES digite: des, caso seja RC4 digite: rc4.
+
+- Segundo argumento é o aquivo que contém a mensagem cifrada ou não.
+
+- Terceiro argumento é a chave, os critérios da chave variam dependendo do algorítmo a ser utilizado caso seja o Simple Des a chave só pode ter um carácter, o RC4 pode ter até  256 caracteres , o resto será descartado.
+
+- Quarto argumento indica se você vai encriptar a mensagem ou vai descriptografar a mensagem. Digite __e__ para encriptar ou  __d__ para descriptografar.
+
+
+Exemplo: utilizando o des para encriptar a mensagem:
+```zsh
+$ cd cifras_modernas_simetricas
+# python3 caso esteja utilizando ubuntu
+$ python encrypt.py des message.txt e e 
+```
+
+Exemplo: utilizando o RC4 para encriptar a mensagem:
+```zsh
+$ cd cifras_modernas_simetricas
+# python3 caso esteja utilizando ubuntu
+$ python encrypt.py rc4 message.txt segredo e 
+```
+
+Tando as classes quanto a interface pode ser encontrado na pasta [cifras_modernas_simetricas](cifras_modernas_simetricas/). Nos arquivos: [s_des.py](cifras_modernas_simetricas/s_des.py), [rc4.py](cifras_modernas_simetricas/rc4.py) e [encrypt.py](cifras_modernas_simetricas/encrypt.py).
