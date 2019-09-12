@@ -263,3 +263,52 @@ $ python encrypt.py rc4 message.txt segredo e
 ```
 
 Tando as classes quanto a interface pode ser encontrado na pasta [cifras_modernas_simetricas](cifras_modernas_simetricas/). Nos arquivos: [s_des.py](cifras_modernas_simetricas/s_des.py), [rc4.py](cifras_modernas_simetricas/rc4.py) e [encrypt.py](cifras_modernas_simetricas/encrypt.py).
+
+
+## Chat seguro  
+Desenvolva uma aplicação para troca de mensagens de texto (estilo chat) entre você e seus colegas de maneira que seja possível trocar mensagens de texto entre pares utilizando criptografia com o S-DES e o RC4, desenvolvidos por você
+
+- Assuma que a comunicação será feita pela porta 5354, com socket TCP
+
+- Assuma também que ambos os pares já conhecem a chave de segurança e essa poderá ser
+modificada pelo usuário em tempo de execução da aplicação, bem como o algoritmo de
+criptografia utilizado (S-DES ou RC4)
+
+
+### Solução apresentada  
+
+Para essa Atividade foi necessário criar duas classes Server e Client. A classe server é responsável por transmitir a mensagem para todos os clientes. A classe cliente é responsável por receber, enviar, cifrar e descifrar a mensagem.
+
+
+Exemplo de utilização em localhost: 
+
+```zsh
+$ cd cifras_modernas_simetricas
+# python3 caso esteja utilizando ubuntu
+$ python socket_server.py
+```
+
+Abra outro terminal.
+
+```zsh
+$ cd cifras_modernas_simetricas
+# python3 caso esteja utilizando ubuntu
+$ python socket_client.py 127.0.0.1 
+```
+
+abra mais um terminal.
+
+```zsh
+$ cd cifras_modernas_simetricas
+# python3 caso esteja utilizando ubuntu
+$ python socket_client.py 127.0.0.1 
+```
+
+Boatos dizem que ter um tempo para conversar consigo mesmo é bom para saúde. Experimente.  
+**Lembrar de apagar isso antes de enviar para o professor**
+
+
+
+### Dificuldades 
+
+A única e verdadeira dificuldade encontrada em todas as atividades foi a implementação do RC4, ao contrário dos outros algoritmos ele possui muita operação aritmética, algo que pessoalmente me deixou confuso alem de ter demorado 30 minutos pesquisando na internet como usar o o algoritmo para descifrar, algo que me frustrou muito. Nas demais atividades, apesar de não ter uma dificuldade, foram trabalhos trabalhosos, ou seja requeriam um certo tempo e organização para que tudo seja feito em tempo hábil.  

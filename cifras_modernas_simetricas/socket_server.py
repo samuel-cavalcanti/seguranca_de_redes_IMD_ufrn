@@ -16,8 +16,17 @@ class Server:
 
     def __chat_room(self, connection: socket.socket, addr: tuple):
 
-        connection.send(bytes("Bem vindo a sala de bate papo da UOL\n".encode()))
-        connection.send(bytes("gostaria de jogar um Habbo Hotel ?\n ".encode()))
+        connection.send(bytes("Bem vindo !!\n".encode()))
+        connection.send(bytes("comandos /des /rc4 /exit\n".encode()))
+        connection.send(bytes("/exit para sair do chat\n".encode()))
+        connection.send(bytes("/des para iniciar o simple des\n".encode()))
+        connection.send(bytes("/rc4 para iniciar o rc4 \n".encode()))
+        connection.send(bytes("exemplo: /des a\n".encode()))
+        connection.send(bytes("exemplo: /rc4 segredo\n".encode()))
+        connection.send(bytes("observe que o segundo parametro: a e segredo\n".encode()))
+        connection.send(bytes("represeta a chave, no caso do Simple DES\n".encode()))
+        connection.send(bytes("a chave só pode ter 1 caracter \n".encode()))
+        connection.send(bytes("o RC4 pode ter até 256 caracters \n".encode()))
 
         while True:
 
@@ -45,6 +54,7 @@ class Server:
                     self.__remove_connection(client)
 
     def run(self):
+
         while True:
             con, client = self.__tcp.accept()
 
@@ -58,10 +68,18 @@ class Server:
             self.__clients.remove(conection)
             conection.close()
 
+    def __del__(self):
+        print("\ndesconectando o server")
+        self.__tcp.close()
+
 
 def start_server():
     server = Server()
-    server.run()
+    print("Precione CTRL + C para sair")
+    try:
+        server.run()
+    except KeyboardInterrupt:
+        exit(1)
 
 
 if __name__ == '__main__':
