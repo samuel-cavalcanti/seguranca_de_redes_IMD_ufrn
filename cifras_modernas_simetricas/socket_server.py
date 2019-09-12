@@ -16,17 +16,17 @@ class Server:
 
     def __chat_room(self, connection: socket.socket, addr: tuple):
 
-        connection.send(bytes("Bem vindo !!\n".encode()))
-        connection.send(bytes("comandos /des /rc4 /exit\n".encode()))
-        connection.send(bytes("/exit para sair do chat\n".encode()))
-        connection.send(bytes("/des para iniciar o simple des\n".encode()))
-        connection.send(bytes("/rc4 para iniciar o rc4 \n".encode()))
-        connection.send(bytes("exemplo: /des a\n".encode()))
-        connection.send(bytes("exemplo: /rc4 segredo\n".encode()))
-        connection.send(bytes("observe que o segundo parametro: a e segredo\n".encode()))
-        connection.send(bytes("represeta a chave, no caso do Simple DES\n".encode()))
-        connection.send(bytes("a chave só pode ter 1 caracter \n".encode()))
-        connection.send(bytes("o RC4 pode ter até 256 caracters \n".encode()))
+        connection.send(bytes("\x02Bem vindo !!\n".encode()))
+        connection.send(bytes("\x02comandos /des /rc4 /exit\n".encode()))
+        connection.send(bytes("\x02/exit para sair do chat\n".encode()))
+        connection.send(bytes("\x02/des para iniciar o simple des\n".encode()))
+        connection.send(bytes("\x02/rc4 para iniciar o rc4 \n".encode()))
+        connection.send(bytes("\x02exemplo: /des a\n".encode()))
+        connection.send(bytes("\x02exemplo: /rc4 segredo\n".encode()))
+        connection.send(bytes("\x02observe que o segundo parametro: a e segredo\n".encode()))
+        connection.send(bytes("\x02represeta a chave, no caso do Simple DES\n".encode()))
+        connection.send(bytes("\x02a chave só pode ter 1 caracter \n".encode()))
+        connection.send(bytes("\x02o RC4 pode ter até 256 caracters \n".encode()))
 
         while True:
 
@@ -35,7 +35,7 @@ class Server:
             if not msg:
                 break
 
-            msg_to_seed = "<{}, {}> {}".format(addr[0], addr[1], msg.decode()).encode()
+            msg_to_seed = "<{}, {}> \x02{}".format(addr[0], addr[1], msg.decode()).encode()
 
             self.__broadcast(msg_to_seed, connection)
 

@@ -28,9 +28,10 @@ class Client:
             for socks in read_sockets:
                 if socks == self.__tcp:
                     socks: socket.socket
-                    message: str = socks.recv(2048).decode()
-                    decrypted_message = self.__verify_encryption(message[19:])
-                    print(message[:19] + decrypted_message)
+                    messages: list = socks.recv(2048).decode().split("\x02")
+
+                    decrypted_message = self.__verify_encryption(messages[1])
+                    print(messages[0] + decrypted_message)
                 else:
                     message: str = sys.stdin.readline()
                     if message[:5] == "/exit":
@@ -85,7 +86,7 @@ class Client:
         return self.__rc4.execute(message, self.__key)
 
     def __start_encryption(self, message: str) -> bool:
-
+        # \crypt sdes
         if len(message) >= 6:
             type_encryption = message[:4]
             key = message[5:6]
