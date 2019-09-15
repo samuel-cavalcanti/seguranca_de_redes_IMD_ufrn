@@ -16,17 +16,19 @@ class Server:
 
     def __chat_room(self, connection: socket.socket, addr: tuple):
 
-        connection.send(bytes("\x02Bem vindo !!\n".encode()))
-        connection.send(bytes("\x02comandos /des /rc4 /exit\n".encode()))
-        connection.send(bytes("\x02/exit para sair do chat\n".encode()))
-        connection.send(bytes("\x02/des para iniciar o simple des\n".encode()))
-        connection.send(bytes("\x02/rc4 para iniciar o rc4 \n".encode()))
-        connection.send(bytes("\x02exemplo: /des a\n".encode()))
-        connection.send(bytes("\x02exemplo: /rc4 segredo\n".encode()))
-        connection.send(bytes("\x02observe que o segundo parametro: a e segredo\n".encode()))
-        connection.send(bytes("\x02represeta a chave, no caso do Simple DES\n".encode()))
-        connection.send(bytes("\x02a chave só pode ter 1 caracter \n".encode()))
-        connection.send(bytes("\x02o RC4 pode ter até 256 caracters \n".encode()))
+        welcome_msg = "\x02Bem vindo !!\n" \
+                      "comandos /des /rc4 /exit\n" \
+                      "\exit para sair do chat\n" \
+                      "digite: \crypt sdes para iniciar o simple des\n" \
+                      "digite: \crypt rc4 para iniciar o rc4 \n" \
+                      "exemplo: \crypt sdes \"1010101010\"\n" \
+                      "exemplo: \crypt rc4 \"segredo\"\n" \
+                      "observe que o segundo parametro: 1010101010 e segredo\n" \
+                      "represeta a chave, no caso do Simple DES\n" \
+                      "a chave só pode ter 10 bytes\n" \
+                      "o RC4 pode ter até 256 caracters \n"
+
+        connection.send(bytes(welcome_msg.encode()))
 
         while True:
 

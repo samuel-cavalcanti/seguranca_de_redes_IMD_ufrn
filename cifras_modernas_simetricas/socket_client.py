@@ -33,19 +33,19 @@ class Client:
                     decrypted_message = self.__verify_encryption(messages[1])
                     print(messages[0] + decrypted_message)
                 else:
-                    message: str = sys.stdin.readline()
-                    if message[:5] == "/exit":
+                    message: str = sys.stdin.readline()[:-1]
+                    self.__erase_line()
+                    if message[:5] == "\exit":
                         exit(1)
 
                     if self.__encryption:
                         encrypted_message: str = self.__encryption(message, True)
-                        self.__start_encryption(message)
+
                         self.__tcp.send(bytes(encrypted_message.encode()))
                     else:
-                        self.__start_encryption(message)
                         self.__tcp.send(bytes(message.encode()))
 
-                    sys.stdout.write("<You> {}".format(message))
+                    sys.stdout.write("<You> {}".format(self.__verify_start_encryption(message) + "\n"))
                     sys.stdout.flush()
 
     def __use_s_des(self, message: str, encrypt: bool):
@@ -86,17 +86,29 @@ class Client:
         return self.__rc4.execute(message, self.__key)
 
     def __start_encryption(self, message: str) -> bool:
-        # \crypt sdes
-        if len(message) >= 6:
-            type_encryption = message[:4]
-            key = message[5:6]
-            if type_encryption == "/des":
-                self.__encryption = self.__use_s_des
-                self.__key = format(ord(key), "b").zfill(10)
-                return True
-            elif type_encryption == "/rc4":
-                self.__encryption = self.__use_rc4
-                self.__key = key
+        commands = message.split(" ")
+        if commands[0] == "\crypt":
+            type_encryption = commands[1]
+            if type_encryption == "sdes":
+                if self.__have_quotes(commands[2]):
+                    key = commands[2][1:-1]
+                    self.__encryption = self.__use_s_des
+                    if len(key) < 10:
+                        self.__key = key.zfill(10)
+                    else:
+                        self.__key = key[:10]
+                    return True
+                return False
+
+            elif type_encryption == "rc4":
+                if self.__have_quotes(commands[2]):
+                    self.__encryption = self.__use_rc4
+                    self.__key = commands[2][1:-1]
+                    return True
+                return False
+
+            elif type_encryption == "none":
+                self.__encryption = None
                 return True
             else:
                 return False
@@ -107,8 +119,10 @@ class Client:
         if self.__start_encryption(message):
             if self.__encryption == self.__use_s_des:
                 return "Cifra Simple DES ativada"
-            else:
+            elif self.__encryption == self.__use_rc4:
                 return "Cifra RC4 ativada"
+            else:
+                return "Comunicação sem cifra"
         else:
             return message
 
@@ -117,6 +131,18 @@ class Client:
             return self.__check_type_encryption(message)
 
         return message
+
+    def __erase_line(self):
+        CURSOR_UP_ONE = '\x1b[1A'
+        ERASE_LINE = '\x1b[2K'
+        sys.stdout.write(CURSOR_UP_ONE)
+        sys.stdout.write(ERASE_LINE)
+
+    @staticmethod
+    def __have_quotes(command: str) -> bool:
+        if command[0] == command[-1] == "\"":
+            return True
+        return False
 
     def __del__(self):
         print("saindo do chat...")
