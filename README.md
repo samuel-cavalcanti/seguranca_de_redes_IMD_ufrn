@@ -303,11 +303,23 @@ $ cd cifras_modernas_simetricas
 # python3 caso esteja utilizando ubuntu
 $ python socket_client.py 127.0.0.1 
 ```
-
+<!-- 
 Boatos dizem que ter um tempo para conversar consigo mesmo é bom para saúde. Experimente.  
-**Lembrar de apagar isso antes de enviar para o professor**
+**Lembrar de apagar isso antes de enviar para o professor** -->
 
+O chat possui alguns comandos que são apresentados ao usuários assim que eles se conectam. Esses comandos são:
 
+- __\exit__ para sair do chat
+
+- __\crypt sdes "chave"__ para cifrar a conversa usando o simple DES, onde a chave deve ser escrita entre aspas duplas e permitindo apenas zeros e uns
+
+- __\crypt rc4 "segredo"__ para cifrar a conversa usando o RC$, onde a chave pode ter no máximo 256 caracteres 
+
+- exemplo de utilização do __Simple DES__ :  \crypt sdes "1010101010"  
+Observe que a chave só tem 10 dígitos, onde cada digito representa um byte, a chave do Simple DES tem o tamanho máximo de 10 bytes  
+
+- exemplo de utilização do __RC4__ :   \crypt rc4 "segredo"  
+No RC4 a chave ou frase que digitar entre as aspas duplas devera ser menor ou igual a 256 caracteres se a chave dada for maior que 256 caracteres o resto da frase ou da palavra será descartado  
 
 ### Dificuldades 
 
