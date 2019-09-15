@@ -1,5 +1,10 @@
 # seguranca de redes IMD
 
+## OBS:
+a versão do python utilizada nesse repositório é o __Python 3.7.4__  
+a versão do opencv é a __4.1.1__  
+Utilizar versões anteriores podem apresentar erros !!
+
 ## exercício Cifra 
 Escreva um programa (na linguagem que você domina) que permitam cifrar e decifrar um arquivo de
 texto indicado pela linha de comando, seguindo a __Cifra de Troca de Data__. O script deve ler um arquivo de texto em claro (não cifrado - .txt), indicado na linha de comando e gerar um arquivo texto cifrado (.sec). Para decifragem deve ler um arquivo de texto cifrado (.sec), indicado na linha de comando e imprimir em tela o texto decifrado
@@ -251,14 +256,14 @@ para essa atividade foi necessário criar duas classes: SimpleDes e RC4. Para ci
 Exemplo: utilizando o des para encriptar a mensagem:
 ```zsh
 $ cd cifras_modernas_simetricas
-# python3 caso esteja utilizando ubuntu
+# Python 3.7.4 caso esteja utilizando ubuntu
 $ python encrypt.py des message.txt e e 
 ```
 
 Exemplo: utilizando o RC4 para encriptar a mensagem:
 ```zsh
 $ cd cifras_modernas_simetricas
-# python3 caso esteja utilizando ubuntu
+# Python 3.7.4 caso esteja utilizando ubuntu
 $ python encrypt.py rc4 message.txt segredo e 
 ```
 
@@ -284,7 +289,7 @@ Exemplo de utilização em localhost:
 
 ```zsh
 $ cd cifras_modernas_simetricas
-# python3 caso esteja utilizando ubuntu
+# Python 3.7.4 caso esteja utilizando ubuntu
 $ python socket_server.py
 ```
 
@@ -292,7 +297,7 @@ Abra outro terminal.
 
 ```zsh
 $ cd cifras_modernas_simetricas
-# python3 caso esteja utilizando ubuntu
+# Python 3.7.4 caso esteja utilizando ubuntu
 $ python socket_client.py 127.0.0.1 
 ```
 
@@ -300,7 +305,7 @@ abra mais um terminal.
 
 ```zsh
 $ cd cifras_modernas_simetricas
-# python3 caso esteja utilizando ubuntu
+# Python 3.7.4 caso esteja utilizando ubuntu
 $ python socket_client.py 127.0.0.1 
 ```
 <!-- 
