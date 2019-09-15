@@ -324,3 +324,8 @@ No RC4 a chave ou frase que digitar entre as aspas duplas devera ser menor ou ig
 ### Dificuldades 
 
 A única e verdadeira dificuldade encontrada em todas as atividades foi a implementação do RC4, ao contrário dos outros algoritmos ele possui muita operação aritmética, algo que pessoalmente me deixou confuso alem de ter demorado 30 minutos pesquisando na internet como usar o o algoritmo para descifrar, algo que me frustrou muito. Nas demais atividades, apesar de não ter uma dificuldade, foram trabalhos trabalhosos, ou seja requeriam um certo tempo e organização para que tudo seja feito em tempo hábil.  
+
+### Teste 
+Um simples teste de todo o sistema foi gravado e postado no youtube, caso tenha interesse, click na imagem:
+
+[![](http://img.youtube.com/vi/Xp2jfWzeCBg/0.jpg)](http://www.youtube.com/watch?v=Xp2jfWzeCBg "testes chat seguro cifras simétricas modernas")
