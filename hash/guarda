@@ -1,0 +1,249 @@
+#!/bin/python3
+
+import sys
+import getopt
+import hashlib
+import hmac
+import os
+import json
+import shutil
+
+
+def exist_dir(path: str):
+    if not os.path.isdir(path):
+        print("diretório: {} não encontrado".format(path))
+        exit(3)
+
+
+def try_to_read_file(file_name: str) -> bytes:
+    try:
+        return open(file_name, "rb").read()
+    except:
+        print("erro ao ler arquivo: {}".format(file_name))
+        exit(4)
+
+
+def load_json(file_name: str) -> dict:
+    json_file = open(file_name, "r")
+
+    return json.load(json_file)
+
+
+def verify_guard(path: str):
+    exist_dir(path)
+    hide_dir = os.path.join(path, ".guard")
+    exist_dir(hide_dir)
+    return hide_dir
+
+
+def hash_file(file_name, md5: hmac.HMAC) -> str:
+    file_bytes = try_to_read_file(file_name)
+
+    md5.update(file_bytes)
+
+    return md5.hexdigest()
+
+
+def hash_all_files(path: str, method: hmac.HMAC) -> dict:
+    guard = dict()
+
+    for file_name in os.walk(path):
+        root_path = file_name[0]
+
+        if ".guard" in root_path:
+            continue
+
+        for possible_file in file_name[1:]:
+
+            if not possible_file:
+                continue
+
+            path_to_file = os.path.join(root_path, possible_file[0])
+
+            if os.path.isfile(path_to_file):
+                guard[path_to_file] = hash_file(path_to_file, method.copy())
+
+    return guard
+
+
+def make_hide_dir(path: str) -> str:
+    hide_dir = os.path.join(path, ".guard")
+
+    if os.path.isdir(hide_dir):
+        return hide_dir
+
+    os.mkdir(hide_dir)
+
+    return hide_dir
+
+
+def save_json(path: str, guard: dict):
+    json_file = os.path.join(path, "guard.json")
+
+    guard_json = json.dumps(guard)
+
+    try:
+        open(json_file, "w").write(guard_json)
+    except:
+        print("erro ao saver o guard json {}".format(guard_json))
+        exit(5)
+
+
+def make_guard_init_report(guard: dict) -> str:
+    message = "\t{}\n"
+
+    report = "monitorando os arquivos: \n"
+
+    for file in list(guard.keys()):
+        report += message.format(file)
+
+    return report
+
+
+def add_message_in_report(changed_files: dict, file_name: str, message: str) -> str:
+    if not changed_files.get(file_name, False):
+        return message
+    return str()
+
+
+def verify_changes(old_guard: dict, new_guard: dict) -> str:
+    report = "Rastreado arquivos: \n"
+    new_file_message = "\tarquivo: {} foi adicionado\n"
+    modified_file_message = "\tarquivo {} foi alterado\n"
+    removed_file_message = "\tarquivo {} foi removido\n"
+
+    all_hashed_files = dict()
+
+    all_hashed_files.update(old_guard)
+    all_hashed_files.update(new_guard)
+
+    changed_files = dict()
+
+    for file in all_hashed_files:
+        if not old_guard.get(file, False):
+            report += add_message_in_report(changed_files, file, new_file_message.format(file))
+        elif old_guard[file] != new_guard[file]:
+            report += add_message_in_report(changed_files, file, modified_file_message.format(file))
+
+        if not new_guard.get(file, False):
+            report += add_message_in_report(changed_files, file, removed_file_message.format(file))
+
+        return report
+
+
+def is_changed(saved_guard: dict, current_guard: dict, method: hmac.HMAC) -> bool:
+    hash_old_guard = method.copy()
+    hash_old_guard.update(str(saved_guard).encode())
+
+    hash_new_guard = method.copy()
+    hash_new_guard.update(str(current_guard).encode())
+
+    return hash_new_guard.hexdigest() != hash_old_guard.hexdigest()
+
+
+def guard_disable(path: str, method: hmac.HMAC) -> str:
+    hide_dir = verify_guard(path)
+    shutil.rmtree(hide_dir, ignore_errors=True)
+
+    return "a pasta {} não está mais sendo monitorada".format(path)
+
+
+def tracking(path: str, method: hmac.HMAC) -> str:
+    hide_dir = verify_guard(path)
+    guard = load_json(os.path.join(hide_dir, "guard.json"))
+
+    new_guard = hash_all_files(path, method)
+
+    if is_changed(guard, new_guard, method):
+        report = verify_changes(guard, new_guard)
+        save_json(hide_dir, new_guard)
+        return report
+
+    else:
+        return "nenhum arquivo na pasta {} foi alterado ou adicionado".format(path)
+
+
+def init_guard(path: str, method: hmac.HMAC) -> str:
+    exist_dir(path)
+
+    guard = hash_all_files(path, method)
+
+    hide_path = make_hide_dir(path)
+
+    save_json(hide_path, guard)
+
+    report = make_guard_init_report(guard)
+
+    return report
+
+
+def save_report(file_name: str, report: str):
+    try:
+        open(file_name, "w").write(report)
+    except:
+        print("erro {} não encontrado".format(file_name))
+        exit(2)
+
+
+def check_parameters(argv) -> list:
+    help_message = "./guarda <metodo> <opcao> <pasta> <saída>\n" \
+                   "― <metodo> : indica o método a ser utilizado ( --hash ou --hmac senha)\n" \
+                   "― <opcao>: indica a ação a ser desempenhada pelo programa\n" \
+                   "\t-i : inicia a guarda da pasta indicada em <pasta>, ou seja, faz a leitura de todos os " \
+                   "arquivos da pasta (recursivamente)\n" \
+                   "\t-t : faz o rastreio (tracking) da pasta indicada em <pasta>, inserindo informações sobre novos arquivos e indicando" \
+                   "alterações detectadas/exclusões\n" \
+                   "\t-x : desativa a guarda e remove a estrutura alocada\n" \
+                   "― <pasta> : indica a pasta a ser “guardada”\n" \
+                   "― <saida> : indica o arquivo de saída para o relatório (-o saída). Caso não seja passado este parâmetro, a" \
+                   "saída deve ser feita em tela."
+
+    try:
+        mapped_options, no_mapped_options = getopt.getopt(argv, "i: t: x: o: h", ["hash", "hmac"])
+    except getopt.GetoptError as error:
+        print(help_message)
+
+        print("\n\n", error)
+        exit(1)
+
+    return mapped_options
+
+
+def main():
+    mapped_options = check_parameters(sys.argv[1:])
+
+    report_output = None
+
+    for option, arg in mapped_options:
+
+        if option == "--hash":
+            method = hashlib.md5()
+
+        elif option == "--hmac":
+            method = hmac.new(arg.encode())
+
+        elif option == "-i":
+            execute_option = init_guard
+            folder = arg
+
+        elif option == "-t":
+            execute_option = tracking
+            folder = arg
+
+        elif option == "-x":
+            execute_option = guard_disable
+            folder = arg
+
+        elif option == "-o":
+            report_output = arg
+
+    report = execute_option(folder, method)
+
+    if report_output:
+        save_report(report_output, report)
+    else:
+        print(report)
+
+
+if __name__ == '__main__':
+    main()
