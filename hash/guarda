@@ -91,12 +91,12 @@ def save_json(path: str, guard: dict):
 
 
 def make_guard_init_report(guard: dict) -> str:
-    message = "\t{}\n"
+    message = "\t{}  {}\n"
 
     report = "monitorando os arquivos: \n"
 
-    for file in list(guard.keys()):
-        report += message.format(file)
+    for file in guard:
+        report += message.format(file, guard[file])
 
     return report
 
