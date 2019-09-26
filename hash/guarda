@@ -58,10 +58,11 @@ def hash_all_files(path: str, method: hmac.HMAC) -> dict:
             if not possible_file:
                 continue
 
-            path_to_file = os.path.join(root_path, possible_file[0])
+            for file in possible_file:
+                path_to_file = os.path.join(root_path, file)
 
-            if os.path.isfile(path_to_file):
-                guard[path_to_file] = hash_file(path_to_file, method.copy())
+                if os.path.isfile(path_to_file):
+                    guard[path_to_file] = hash_file(path_to_file, method.copy())
 
     return guard
 
@@ -122,11 +123,12 @@ def verify_changes(old_guard: dict, new_guard: dict) -> str:
     for file in all_hashed_files:
         if not old_guard.get(file, False):
             report += add_message_in_report(changed_files, file, new_file_message.format(file))
+
+        elif not new_guard.get(file, False):
+            report += add_message_in_report(changed_files, file, removed_file_message.format(file))
+
         elif old_guard[file] != new_guard[file]:
             report += add_message_in_report(changed_files, file, modified_file_message.format(file))
-
-        if not new_guard.get(file, False):
-            report += add_message_in_report(changed_files, file, removed_file_message.format(file))
 
         return report
 
@@ -185,19 +187,7 @@ def save_report(file_name: str, report: str):
         exit(2)
 
 
-def check_parameters(argv) -> list:
-    help_message = "./guarda <metodo> <opcao> <pasta> <saída>\n" \
-                   "― <metodo> : indica o método a ser utilizado ( --hash ou --hmac senha)\n" \
-                   "― <opcao>: indica a ação a ser desempenhada pelo programa\n" \
-                   "\t-i : inicia a guarda da pasta indicada em <pasta>, ou seja, faz a leitura de todos os " \
-                   "arquivos da pasta (recursivamente)\n" \
-                   "\t-t : faz o rastreio (tracking) da pasta indicada em <pasta>, inserindo informações sobre novos arquivos e indicando" \
-                   "alterações detectadas/exclusões\n" \
-                   "\t-x : desativa a guarda e remove a estrutura alocada\n" \
-                   "― <pasta> : indica a pasta a ser “guardada”\n" \
-                   "― <saida> : indica o arquivo de saída para o relatório (-o saída). Caso não seja passado este parâmetro, a" \
-                   "saída deve ser feita em tela."
-
+def check_parameters(argv, help_message: str) -> list:
     try:
         mapped_options, no_mapped_options = getopt.getopt(argv, "i: t: x: o: h", ["hash", "hmac"])
     except getopt.GetoptError as error:
@@ -210,7 +200,19 @@ def check_parameters(argv) -> list:
 
 
 def main():
-    mapped_options = check_parameters(sys.argv[1:])
+    help_message = "./guarda <metodo> <opcao> <pasta> <saída>\n" \
+                   "― <metodo> : indica o método a ser utilizado ( --hash ou --hmac senha)\n" \
+                   "― <opcao>: indica a ação a ser desempenhada pelo programa\n" \
+                   "\t-i: inicia a guarda da pasta indicada em <pasta>, ou seja, faz a leitura de todos os " \
+                   "arquivos da pasta (recursivamente)\n" \
+                   "\t-t: faz o rastreio (tracking) da pasta indicada em <pasta>, inserindo informações sobre novos arquivos e indicando" \
+                   "alterações detectadas/exclusões\n" \
+                   "\t-x: desativa a guarda e remove a estrutura alocada\n" \
+                   "― <pasta> : indica a pasta a ser “guardada”\n" \
+                   "― <saida> : indica o arquivo de saída para o relatório (-o saída). Caso não seja passado este parâmetro, a" \
+                   "saída deve ser feita em tela."
+
+    mapped_options = check_parameters(sys.argv[1:], help_message)
 
     report_output = None
 
@@ -236,6 +238,10 @@ def main():
 
         elif option == "-o":
             report_output = arg
+
+        elif option == "-h":
+            print(help_message)
+            exit(6)
 
     report = execute_option(folder, method)
 
