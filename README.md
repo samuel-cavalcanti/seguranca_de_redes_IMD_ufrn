@@ -14,4 +14,6 @@ Utilizar versões anteriores podem apresentar erros !!
 
 - atividade [esteganografia](esteganografia/esteganografia.md)
 
+- atividade [cifras modernas simétricas](cifras_modernas_simetricas/cifras_modernas_simetricas.md)
+
 - atividade [Operação leva jeito](hash/hash.md)
