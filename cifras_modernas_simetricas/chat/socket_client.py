@@ -1,8 +1,8 @@
 import socket
 import select
 import sys
-from s_des import SimpleDes
-from rc4 import RC4
+from cifras.s_des import SimpleDes
+from cifras.rc4 import RC4
 
 
 class Client:
