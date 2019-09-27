@@ -37,4 +37,4 @@ chmod +x guarda
 ```
 
 #### dificuldades:
-A atividade em geral é bem simples quando resolvida de maneira ingênua. Tendo em vista que não foi utilizado nenhuma estrutura de dados para otimizar a aplicação não houve complicações. 
+A atividade em geral é bem simples quando resolvida de maneira ingênua. Tendo em vista que não foi utilizado nenhuma estrutura de dados para otimizar a aplicação, logo não houve complicações. 
