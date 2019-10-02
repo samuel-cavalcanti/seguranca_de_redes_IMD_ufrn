@@ -121,6 +121,7 @@ def verify_changes(old_guard: dict, new_guard: dict) -> str:
     changed_files = dict()
 
     for file in all_hashed_files:
+
         if not old_guard.get(file, False):
             report += add_message_in_report(changed_files, file, new_file_message.format(file))
 
@@ -130,7 +131,7 @@ def verify_changes(old_guard: dict, new_guard: dict) -> str:
         elif old_guard[file] != new_guard[file]:
             report += add_message_in_report(changed_files, file, modified_file_message.format(file))
 
-        return report
+    return report
 
 
 def is_changed(saved_guard: dict, current_guard: dict, method: hmac.HMAC) -> bool:
