@@ -38,3 +38,9 @@ chmod +x guarda
 
 #### dificuldades:
 A atividade em geral é bem simples quando resolvida de maneira ingênua. Tendo em vista que não foi utilizado nenhuma estrutura de dados para otimizar a aplicação, logo não houve complicações. 
+
+
+#### testes:
+Para mostrar o funcionamento do __guarda__ foi feito um vídeo:  
+
+[![](http://img.youtube.com/vi/vWDRlpgR6Bo/0.jpg)](http://www.youtube.com/watch?v=vWDRlpgR6Bo "Teste guarda")
