@@ -1,5 +1,10 @@
 # Como obter um certificado Digital ?
 
+_Samuel Cavalcanti_
+
+<!-- link https://github.com/samuel-cavalcanti/seguranca_de_redes_IMD/blob/master/FAQ.md -->
+
+
 1.    Escolher uma [Autoridade Certificadora](https://www.iti.gov.br/icp-brasil/estrutura) (AC) da ICP-Brasil.
 
 2.    Solicitar no próprio portal da internet da AC escolhida à emissão de certificado digital de pessoa física (ex: e-CPF) e/ou jurídica (ex: e-CNPJ). A AC também pode informar sobre aplicações, custos, formas de pagamento, equipamentos, documentos necessários e demais exigências;
