@@ -1,4 +1,7 @@
 ## exercício Cifra 
+
+_Samuel Cavalcanti_  
+
 Escreva um programa (na linguagem que você domina) que permitam cifrar e decifrar um arquivo de
 texto indicado pela linha de comando, seguindo a __Cifra de Troca de Data__. O script deve ler um arquivo de texto em claro (não cifrado - .txt), indicado na linha de comando e gerar um arquivo texto cifrado (.sec). Para decifragem deve ler um arquivo de texto cifrado (.sec), indicado na linha de comando e imprimir em tela o texto decifrado
 ### Solução apresentada:  

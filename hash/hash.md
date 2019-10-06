@@ -1,4 +1,9 @@
 ## Operação “Leva Jeito”
+
+<!--https://github.com/samuel-cavalcanti/seguranca_de_redes_IMD/blob/master/hash/hash.md-->
+
+_Samuel Cavalcanti_  
+
 Implemente o programa guarda que, usando de calculo de puro Hash ou HMAC, permita garantir a autenticação de um conjunto de arquivos para uma determinada pasta (recursivamente). O programa deverá ser executado em linha de comando, seguindo a sintaxe:  
 
 __./guarda < metodo > < opcao> < pasta > < saída >__  

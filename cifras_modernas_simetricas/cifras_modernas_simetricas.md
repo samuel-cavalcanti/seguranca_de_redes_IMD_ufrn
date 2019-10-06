@@ -1,3 +1,7 @@
+# Chat seguro
+
+_Samuel Cavalcanti_ 
+
 ## Estudo sobre os Modos de Operação de cifra de bloco  
 Aprofunde os seus estudo sobre o algoritmo de criptografia DES apresentado nesta aula e explique os diferentes modos de operação de cifras de bloco, deixando claro as vantagens de cada um.
 

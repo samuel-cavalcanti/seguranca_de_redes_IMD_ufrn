@@ -1,4 +1,7 @@
 ## Exercício de Esteganografia  
+
+_Samuel Cavalcanti_  
+
 Escreva um programa que lê uma mensagem e a esconda em um arquivo de imagem
 no formato Bitmap (um dos formatos mais utilizados na esteganografia pelo fato de não
 possuir compactação) e outro que permita extrair a mensagem do arquivo novamente.  

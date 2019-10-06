@@ -1,5 +1,7 @@
 ## exercícios de Criptoanálise
 
+_Samuel Cavalcanti_  
+
 ###  Quebrar cifra de César
 
 Escreva um programa que quebre por força bruta a cifra de César  
