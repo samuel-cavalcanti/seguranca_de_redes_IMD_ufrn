@@ -8,12 +8,14 @@ Utilizar versões anteriores podem apresentar erros !!
 
 ## relatório das atividades:  
 
-- atividade [cifra](cifra/cifra.md)  
+- [cifra](cifra/cifra.md)  
 
-- atividade [criptoanalise](criptoanalise/criptoanalise.md)
+- [criptoanalise](criptoanalise/criptoanalise.md)
 
-- atividade [esteganografia](esteganografia/esteganografia.md)
+- [esteganografia](esteganografia/esteganografia.md)
 
-- atividade [Chat seguro](cifras_modernas_simetricas/cifras_modernas_simetricas.md)
+- [Chat seguro](cifras_modernas_simetricas/cifras_modernas_simetricas.md)
 
-- atividade [Operação leva jeito](hash/hash.md)
+- [Operação leva jeito](hash/hash.md)
+
+- [Perguntas Frequentes sobre Certificados digitais](FAQ.md)
