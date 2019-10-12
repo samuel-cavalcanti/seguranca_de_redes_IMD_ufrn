@@ -19,3 +19,5 @@ Utilizar versões anteriores podem apresentar erros !!
 - [Operação leva jeito](hash/hash.md)
 
 - [Perguntas Frequentes sobre Certificados digitais](FAQ.md)
+
+- [Rede acadêmica mundial eduroam](eduroam.md)
