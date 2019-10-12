@@ -1,5 +1,7 @@
 # eduroam
 
+_Samuel Cavalcanti_
+<!-- https://github.com/samuel-cavalcanti/seguranca_de_redes_IMD/blob/master/eduroam.md -->
 ## O que é eduroam ? 
 
 Eduroam significa (education roaming) é um serviço mundial de acesso seguro a internet para a comunidade acadêmica. Apesar de ter iniciado na Europa , hoje mais de 100 países participam desse projeto e no Brasil o eduroam tem mais de 2.600 prontos de acesso, desde universidades, centros de pesquisa, praças públicas, aeroportos e cafeterias. 
@@ -30,4 +32,4 @@ Segundo o [site deles](https://www.eduroam.org/eduroam-security/), o eduroam é 
 O eduroam requer o uso do [IEEE 802.1X](https://pt.wikipedia.org/wiki/IEEE_802.1X) que fornece criptografia de ponta a ponta para garantir  que suas credenciais de usuário privado estejam disponíveis apenas para sau instituição de origem. O certificado de sua instituição de origem é o único que você precisa confiar. 
 
 
-O eduroam não trabalha com web portal ou Captive Portal ou Splash-Screen, pois esses mecanismos de autenticação requerem que você confie no ponto de acesso, enviando seu usuário e senha sem criptografia, quebrando a ideia de criptografia de ponta a ponta. Também como o eduroam está presente em vários países, necessitária criar vários layouts diferentes, possibilitando o usuário ser incapaz de distinguir um site falso do original.  
+O eduroam não trabalha com web portal ou Captive Portal ou Splash-Screen, pois esses mecanismos de autenticação requerem que você confie no ponto de acesso, enviando seu usuário e senha sem criptografia, quebrando a ideia de criptografia de ponta a ponta. Também como o eduroam está presente em vários países, necessitária criar vários layouts diferentes, possibilitando o usuário ser incapaz de distinguir um site falso do original.
