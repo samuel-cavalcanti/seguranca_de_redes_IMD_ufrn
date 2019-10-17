@@ -190,7 +190,7 @@ def save_report(file_name: str, report: str):
 
 def check_parameters(argv, help_message: str) -> list:
     try:
-        mapped_options, no_mapped_options = getopt.getopt(argv, "i: t: x: o: h", ["hash", "hmac"])
+        mapped_options, no_mapped_options = getopt.getopt(argv, "i: t: x: o: h", ["hash", "hmac="])
     except getopt.GetoptError as error:
         print(help_message)
 
@@ -217,8 +217,11 @@ def main():
 
     report_output = None
 
-    for option, arg in mapped_options:
+    execute_option = None
 
+
+    for option, arg in mapped_options:
+        
         if option == "--hash":
             method = hashlib.md5()
 
@@ -244,7 +247,13 @@ def main():
             print(help_message)
             exit(6)
 
-    report = execute_option(folder, method)
+    
+
+    if execute_option:
+        report = execute_option(folder, method)
+    else:
+        print("error execute_option is None")
+        exit(10)
 
     if report_output:
         save_report(report_output, report)
