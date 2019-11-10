@@ -1,3 +1,4 @@
+_Samuel Cavalcanti_ 
 ## Configurando e testando o seu Firewall iptables
 Nesta questão você precisará do iptables instalado em sua VM Servidora. Caso não esteja instalado, instale.
 O objetivo desta questão é praticar a criação de regras no iptables, além de observar e compreender os seus
@@ -32,6 +33,7 @@ PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 
 ```
 Adicionando a regra __iptables -P INPUT DROP__  impede o host de receber a resposta do ping.
+
 
 4. Em seu servidor, aplique o conjunto de regras a seguir:  
 iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT  
