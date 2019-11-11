@@ -281,6 +281,30 @@ sudo iptables -A FORWARD -p udp --dport ssh -j ACCEPT
 
 14. Seu servidor deve aceitar ping apenas de sua rede interna.
 
+```bash
+# habilitar o NAT
+sudo iptables -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE
+sudo su -c "echo "1" > /proc/sys/net/ipv4/ip_forward"
+
+
+# regras de INPUT
+sudo iptables -P INPUT DROP
+
+# # permitindo o ping
+sudo iptables -A INPUT -p icmp -m iprange --icmp-type echo-request --src-range 192.168.33.0-192.168.33.255  -j ACCEPT
+sudo iptables -A INPUT -p icmp -m iprange --icmp-type echo-reply --src-range 192.168.33.0-192.168.33.255 -j ACCEPT
+
+
+# regras de FORWARD
+sudo iptables -P FORWARD DROP
+
+# regras para librar ping
+sudo iptables -A FORWARD -p icmp --icmp-type echo-request -j ACCEPT
+sudo iptables -A FORWARD -p icmp --icmp-type echo-reply -j ACCEPT
+
+
+```
+
 15. Explique a função do conjunto de regras a seguir. Tente identificar o sentido de cada regra e, no seu
 conjunto, do que tratam.
 ```bash
@@ -328,3 +352,166 @@ define uma regra embaixo de todas as outras e essa regra diz: retorna para a cha
 
 - __$IPTABLES -A REGRA-Y -j DROP__  
 define uma regra embaixo de todas as outras e essa regra diz: descarta todos os pacotes silenciosamente.
+
+17. Implemente um firewall/proxy transparente com o iptables e Squid (pesquisar). O serviço Squid será configurado na porta 3300. Implemente um conjunto de regras que permita que requisições que vierem da rede interna para acesso internet sejam automaticamente redirecionadas para a porta usada pelo Squid. Testem a sua implementação.
+
+```bash
+sudo squid -a 3300 # configurando o squid para  a porta 3300
+
+```
+
+```bash
+
+# regras de PREROUTING (DNAT)
+# redirecionando a porta http para o squid
+sudo iptables -t nat -A PREROUTING -i enp0s8 -s 192.168.33.1/24 -p tcp --dport http -j REDIRECT --to-port 3300 
+
+# regras de POSTROUTING (SNAT)
+										#-o enp0s3 (interface de saida)
+# habilitar o NAT
+sudo iptables -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE 
+sudo su -c "echo "1" > /proc/sys/net/ipv4/ip_forward"
+
+
+# regras de FORWARD
+sudo iptables -P FORWARD DROP
+
+# regras para librar ping
+sudo iptables -A FORWARD -p icmp --icmp-type echo-request -j ACCEPT
+sudo iptables -A FORWARD -p icmp --icmp-type echo-reply -j ACCEPT
+
+# regras para liberar a internet 
+# 53 = domain
+# 80 = http 
+# 443 = https
+
+sudo iptables -A FORWARD -p tcp -m multiport --sport http,https,domain -j ACCEPT
+sudo iptables -A FORWARD -p tcp -m multiport --dport http,https,domain -j ACCEPT
+
+#DNS
+sudo iptables -A FORWARD  -p udp --sport  domain -j ACCEPT
+sudo iptables -A FORWARD  -p udp --dport  domain -j ACCEPT
+
+
+```
+referencia: https://coderwall.com/p/t_isaa/create-a-gateway-with-a-transparent-proxy-iptables-squid
+
+
+18. Permitir o acesso a servidores MySQL e PostgreSQL apenas para conexões da rede interna.
+
+```bash
+# habilitar o NAT
+sudo iptables -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE
+sudo su -c "echo "1" > /proc/sys/net/ipv4/ip_forward"
+
+
+# regras de INPUT
+sudo iptables -P INPUT DROP
+
+# # permitindo o ping
+sudo iptables -A INPUT -p icmp -m iprange --icmp-type echo-request --src-range 192.168.33.0-192.168.33.255  -j ACCEPT
+sudo iptables -A INPUT -p icmp -m iprange --icmp-type echo-reply --src-range 192.168.33.0-192.168.33.255 -j ACCEPT
+
+#servidor MYSQL e POSTGRESQL (não precisa se o servidor for outro ip)
+sudo iptables -A INPUT -p tcp -m multiport -m iprange --sport 3306,5432 --src-range 192.168.33.0-192.168.33.255  -j ACCEPT
+sudo iptables -A INPUT -p tcp -m multiport -m iprange --dport 3306,5432 --src-range 192.168.33.0-192.168.33.255  -j ACCEPT
+
+sudo iptables -A INPUT -p udp -m iprange --sport 3306 --src-range 192.168.33.0-192.168.33.255 -j ACCEPT
+sudo iptables -A INPUT -p udp -m iprange --dport 3306 --src-range 192.168.33.0-192.168.33.255 -j ACCEPT
+
+# regras de FORWARD
+sudo iptables -P FORWARD DROP
+
+
+# 3306/tcp,udp MYSQL
+# 5432/tcp	POSTGRESQL
+MYSQLSERVER=192.168.33.1
+POSTGRESQL=192.168.33.1
+
+sudo iptables -A FORWARD -p tcp -m multiport -m iprange --sport 3306,5432 --src-range 192.168.33.0-192.168.33.255 -d $MYSQLSERVER,$POSTGRESQL -j ACCEPT
+sudo iptables -A FORWARD -p tcp -m multiport -m iprange --dport 3306,5432 --src-range 192.168.33.0-192.168.33.255 -d $MYSQLSERVER,$POSTGRESQL -j ACCEPT
+
+sudo iptables -A FORWARD -p udp -m iprange --sport 3306 --src-range 192.168.33.0-192.168.33.255 -d $MYSQLSERVER -j ACCEPT
+sudo iptables -A FORWARD -p udp -m iprange --dport 3306 --src-range 192.168.33.0-192.168.33.255 -d $MYSQLSERVER -j ACCEPT
+
+# regras de OUTPUT
+sudo iptables -P OUTPUT ACCEPT
+```
+
+19. Permitir todo tráfego de entrada para o serviço SMTP, IMAP, IMAPS, POP3 e POP3S.
+
+
+```bash
+# habilitar o NAT
+sudo iptables -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE
+sudo su -c "echo "1" > /proc/sys/net/ipv4/ip_forward"
+
+
+# regras de INPUT
+sudo iptables -P INPUT DROP
+
+
+# regras de FORWARD
+sudo iptables -P FORWARD DROP
+ 
+# POP3
+# Port 110/TCP - this is the default POP3 non-encrypted port
+# Port 995/TCP - this is the port you need to use if you want to connect using POP3 securely
+
+# IMAP -tcp
+# Port 143/TCP,UDP - this is the default IMAP non-encrypted port
+# Port 993/TCP - this is the port you need to use if you want to connect using IMAP securely
+# 220/TCP,UDP IMAP version 3
+
+# SMTP
+# Port 25/TCP,UDP - this is the default SMTP non-encrypted port
+# Port 465/TCP - this is the port used if you want to send messages using SMTP securely
+# 366/TCP,UDP SMTP
+
+# Fonte: https://pt.wikipedia.org/wiki/Lista_de_portas_dos_protocolos_TCP_e_UDP 
+
+sudo iptables -A FORWARD -p tcp -m multiport --sport 110,995,143,993,220,25,465,366 -j ACCEPT
+sudo iptables -A FORWARD -p tcp -m multiport --dport 110,995,143,993,220,25,465,366 -j ACCEPT
+
+sudo iptables -A FORWARD -p udp -m multiport --sport 143,220,25,366  -j ACCEPT
+sudo iptables -A FORWARD -p udp -m multiport --dport 143,220,25,366  -j ACCEPT
+
+
+```
+
+20. Permitir o acesso ao Facebook apenas no período de almoço, ou seja, das 12:00h às 14:00h.
+
+```bash
+dig www.facebook.com +short                                                                  
+star-mini.c10r.facebook.com.
+157.240.222.35
+```
+
+
+```bash
+# habilitar o NAT
+sudo iptables -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE 
+sudo su -c "echo "1" > /proc/sys/net/ipv4/ip_forward"
+
+
+# regras de FORWARD
+sudo iptables -P FORWARD DROP
+
+# regras para liberar a internet 
+# 53 = domain
+# 80 = http 
+# 443 = https
+
+
+sudo iptables -A FORWARD -s 157.240.222.35 -m time --timestart 12:00 --timestop 14:00 -j ACCEPT
+sudo iptables -A FORWARD -s 157.240.222.35 -j DROP
+
+
+sudo iptables -A FORWARD -p tcp -m multiport --sport http,https,domain -j ACCEPT
+sudo iptables -A FORWARD -p tcp -m multiport --dport http,https,domain -j ACCEPT
+
+#DNS
+sudo iptables -A FORWARD  -p udp --sport  domain -j ACCEPT
+sudo iptables -A FORWARD  -p udp --dport  domain -j ACCEPT
+
+```
