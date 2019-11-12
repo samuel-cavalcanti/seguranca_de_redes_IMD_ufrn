@@ -361,6 +361,45 @@ sudo squid -a 3300 # configurando o squid para  a porta 3300
 ```
 
 ```bash
+# regras de PREROUTING (DNAT)
+
+sudo iptables -t nat -A PREROUTING -i enp0s8 -s 192.168.33.1/24 -p tcp --dport http -j REDIRECT --to-port 3300
+
+# regras de POSTROUTING (SNAT)
+										#-o enp0s3 (interface de saida)
+# habilitar o NAT
+sudo iptables -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE 
+sudo su -c "echo "1" > /proc/sys/net/ipv4/ip_forward"
+
+# regras de INPUT
+sudo iptables -P INPUT ACCEPT
+
+# regras de FORWARD
+sudo iptables -P FORWARD DROP
+
+# regras para librar ping
+sudo iptables -A FORWARD -p icmp --icmp-type echo-request -j ACCEPT
+sudo iptables -A FORWARD -p icmp --icmp-type echo-reply -j ACCEPT
+
+# regras para liberar a internet 
+# 53 = domain
+# 80 = http 
+# 443 = https
+sudo iptables -A FORWARD -o enp0s3 -i enp0s8 -s 192.168.33.1/24 -m conntrack --ctstate NEW -j ACCEPT
+sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+sudo iptables -A FORWARD -p tcp -m multiport --sport http,https,domain -j ACCEPT
+sudo iptables -A FORWARD -p tcp -m multiport --dport http,https,domain -j ACCEPT
+
+#DNS
+sudo iptables -A FORWARD  -p udp --sport  domain -j ACCEPT
+sudo iptables -A FORWARD  -p udp --dport  domain -j ACCEPT
+
+# regras de OUTPUT
+sudo iptables -P OUTPUT ACCEPT
+```
+
+```bash
 
 # regras de PREROUTING (DNAT)
 # redirecionando a porta http para o squid

@@ -5,7 +5,7 @@ _Samuel Cavalcanti_
 
 - __Task 1: Get Familiar with SQL Statements__
 
-![](where_alice.png)
+!["where alice"](where_alice.png)
 
 - __Task 2.1: SQL Injection Attack from webpage__
 
@@ -47,7 +47,7 @@ resposta:
 
 primeiro alterei o nickname para Al
 
-![](al.png)
+!["nick modif"](al.png)
 
 
 segundo, eu parti do principio que não sabia o nome da coluna de ids  então  chutei que o mesmo nome NickName também era no formulário e deu certo.
@@ -56,7 +56,7 @@ segundo, eu parti do principio que não sabia o nome da coluna de ids  então  c
 ',salary=5000000 where NickName='Al';#
 ```
 
-![](changeMySalary.png)
+!["change My Salary"](changeMySalary.png)
 
 
 - __Task 3.2: Modify other people’ salary__
@@ -74,7 +74,7 @@ Segundo, utilizo o sql injection que anteriormente utilizei para alterar meu sal
 
 ficando assim: 
 
-![](ja_era_boby.png)
+!["good bye boby's money"](ja_era_boby.png)
 
 
 - __Task 3.3: Modify other people’ password__
